@@ -1,8 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+
+import { Product } from 'src/app/core/models';
+import { ProductService } from 'src/app/features/products/services/product.service';
 
 @Component({
   selector: 'app-featured-products',
   imports: [],
   templateUrl: './featured-products.html',
 })
-export class FeaturedProducts {}
+export class FeaturedProducts implements OnInit {
+  private productService = inject(ProductService);
+
+  featuredProducts = signal<Product[]>([]);
+
+  ngOnInit(): void {
+    this.productService.getAll().subscribe({
+      next: (res) => {
+        this.featuredProducts.set(res.filter((p) => p.featured));
+      },
+      error: (err) => console.error('Error fetching featured products:', err),
+    });
+  }
+}
