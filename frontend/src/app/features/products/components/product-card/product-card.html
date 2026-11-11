@@ -1,1 +1,38 @@
-<p>product-card works!</p>
+<p-card class="w-full overflow-hidden h-full">
+  <ng-template #header>
+    <div class="relative h-48 overflow-hidden group">
+      <img
+        [src]="product.imageUrl"
+        [alt]="product.name"
+        class="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+      />
+      @if (product.featured) {
+      <p-tag severity="info" value="Destacado" class="absolute! top-3 left-3" />
+      }
+    </div>
+  </ng-template>
+
+  <ng-template #subtitle>
+    <span class="text-xs font-semibold uppercase tracking-wider">
+      {{ product.brand }}
+    </span>
+  </ng-template>
+
+  <ng-template #title>
+    <span class="font-bold text-lg line-clamp-1">{{ product.name }}</span>
+  </ng-template>
+
+  <p class="text-sm line-clamp-2">{{ product.description }}</p>
+
+  <ng-template #footer>
+    <div
+      class="flex items-center justify-between pt-4 border-t border-surface-200 dark:border-surface-700"
+    >
+      <span class="text-xl font-bold">${{ product.price }}</span>
+      <div class="flex items-center gap-1 text-sm font-medium">
+        <svg data-p-icon="star-fill" class="text-yellow-500"></svg>
+        <span>{{ product.rating }}</span>
+      </div>
+    </div>
+  </ng-template>
+</p-card>
