@@ -1,1 +1,26 @@
-<p>navbar works!</p>
+<div class="p-4">
+  <p-menubar [model]="items" class="block">
+    <ng-template #start>
+      <a routerLink="/" class="flex items-center mr-4 text-xl font-bold tracking-tight">
+        Crud App
+      </a>
+    </ng-template>
+
+    <ng-template #item let-item>
+      <a
+        pRipple
+        [routerLink]="item.routerLink"
+        routerLinkActive="text-primary font-semibold"
+        [routerLinkActiveOptions]="{ exact: item.routerLink === '/' }"
+        class="flex items-center px-3 py-2 gap-2 cursor-pointer"
+      >
+        @switch (item.icon) { @case ('home') {
+        <svg data-p-icon="home"></svg>
+        } @case ('objects-column') {
+        <svg data-p-icon="objects-column"></svg>
+        } }
+        <span class="text-sm">{{ item.label }}</span>
+      </a>
+    </ng-template>
+  </p-menubar>
+</div>
