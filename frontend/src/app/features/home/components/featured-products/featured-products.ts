@@ -2,10 +2,11 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { Product } from 'src/app/core/models';
 import { ProductService } from 'src/app/features/products/services/product.service';
+import { ProductCard } from 'src/app/features/products/components/product-card/product-card';
 
 @Component({
   selector: 'app-featured-products',
-  imports: [],
+  imports: [ProductCard],
   templateUrl: './featured-products.html',
 })
 export class FeaturedProducts implements OnInit {
