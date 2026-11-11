@@ -1,17 +1,9 @@
 <section class="max-w-6xl mx-auto px-4 py-8">
   @if (featuredProducts().length > 0) {
   <p-carousel [slidesPerPage]="3" [spacing]="24" [loop]="true">
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold tracking-tight">Productos destacados</h2>
-      <div class="flex items-center gap-2">
-        <button pCarouselPrev pButton size="small" severity="secondary" iconOnly>
-          <svg data-p-icon="chevron-left"></svg>
-        </button>
-        <button pCarouselNext pButton size="small" severity="secondary" iconOnly>
-          <svg data-p-icon="chevron-right"></svg>
-        </button>
-      </div>
-    </div>
+    <header class="text-center mb-8">
+      <h2 class="text-2xl lg:text-4xl font-bold tracking-tight">Productos destacados</h2>
+    </header>
 
     <p-carousel-content>
       @for (product of featuredProducts(); track product.id) {
@@ -20,6 +12,17 @@
       </p-carousel-item>
       }
     </p-carousel-content>
+    <div class="flex mt-4 gap-4">
+      <p-carousel-indicators></p-carousel-indicators>
+      <div class="flex items-center justify-end gap-2 flex-1">
+        <button pCarouselPrev pButton severity="secondary" iconOnly>
+          <svg data-p-icon="chevron-left"></svg>
+        </button>
+        <button pCarouselNext pButton severity="secondary" iconOnly>
+          <svg data-p-icon="chevron-right"></svg>
+        </button>
+      </div>
+    </div>
   </p-carousel>
   } @else {
   <div class="flex items-center justify-between mb-6">
