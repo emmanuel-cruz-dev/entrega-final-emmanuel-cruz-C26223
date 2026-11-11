@@ -1,1 +1,41 @@
-<p>footer works!</p>
+<footer
+  class="bg-surface-50 dark:bg-surface-900 border-t border-surface-200 dark:border-surface-800 mt-16"
+>
+  <div
+    class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6"
+  >
+    <div class="text-center md:text-left space-y-1">
+      <a
+        routerLink="/"
+        class="text-xl font-bold tracking-tight text-surface-900 dark:text-surface-0 hover:opacity-80 transition-opacity"
+      >
+        Crud App
+      </a>
+      <p class="text-sm text-surface-500 dark:text-surface-400 max-w-sm">
+        Gestioná tus items de forma rápida y sencilla: creá, visualizá, editá y eliminá registros en
+        segundos.
+      </p>
+    </div>
+
+    <nav class="flex items-center gap-8 text-sm font-medium">
+      <a
+        routerLink="/"
+        class="text-surface-600 dark:text-surface-300 hover:text-primary transition-colors"
+      >
+        Inicio
+      </a>
+      <a
+        routerLink="/dashboard"
+        class="text-surface-600 dark:text-surface-300 hover:text-primary transition-colors"
+      >
+        Dashboard
+      </a>
+    </nav>
+  </div>
+
+  <div class="border-t border-surface-200/60 dark:border-surface-800/60 py-4">
+    <div class="max-w-7xl mx-auto px-6 text-xs text-surface-400 dark:text-surface-500">
+      <p>© 2026 Crud App. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
