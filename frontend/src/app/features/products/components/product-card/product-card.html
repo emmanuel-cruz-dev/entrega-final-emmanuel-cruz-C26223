@@ -28,7 +28,7 @@
     <div
       class="flex items-center justify-between pt-4 border-t border-surface-200 dark:border-surface-700"
     >
-      <span class="text-xl font-bold">${{ product.price }}</span>
+      <span class="text-xl font-bold">{{ product.price | currency }}</span>
       <div class="flex items-center gap-1 text-sm font-medium">
         <svg data-p-icon="star-fill" class="text-yellow-500"></svg>
         <span>{{ product.rating }}</span>
