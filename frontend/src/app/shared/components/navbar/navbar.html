@@ -14,11 +14,7 @@
         [routerLinkActiveOptions]="{ exact: item.routerLink === '/' }"
         class="flex items-center px-3 py-2 gap-2 cursor-pointer"
       >
-        @switch (item.icon) { @case ('home') {
-        <svg data-p-icon="home"></svg>
-        } @case ('objects-column') {
-        <svg data-p-icon="objects-column"></svg>
-        } }
+        <svg [pIcon]="item.icon"></svg>
         <span class="text-sm">{{ item.label }}</span>
       </a>
     </ng-template>
