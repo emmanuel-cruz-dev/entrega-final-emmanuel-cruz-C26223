@@ -1,1 +1,170 @@
-<p>product-form works!</p>
+<section class="flex flex-col gap-6">
+  <header class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold tracking-tight">
+      {{ isEdit ? 'Editar producto' : 'Nuevo producto' }}
+    </h1>
+    <a pButton routerLink="/dashboard/products">
+      <svg data-p-icon="arrow-left"></svg>
+      <span>Volver a productos</span>
+    </a>
+  </header>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col gap-4 p-6 rounded-xl border border-surface-200 dark:border-surface-800"
+  >
+    <div class="flex flex-col gap-2">
+      <label for="name" class="font-medium">Nombre</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Ej. Camiseta deportiva"
+        maxlength="100"
+        fluid
+      />
+      @if (hasError('name', 'required')) {
+      <p-message severity="error" size="small" variant="simple"
+        >El nombre es obligatorio.</p-message
+      >
+      } @if (hasError('name', 'maxlength')) {
+      <p-message severity="error" size="small" variant="simple">Máximo 100 caracteres.</p-message>
+      }
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="description" class="font-medium">Descripción</label>
+      <textarea
+        pTextarea
+        id="description"
+        formControlName="description"
+        placeholder="Detalles y características principales..."
+        rows="4"
+        maxlength="500"
+        fluid
+      ></textarea>
+      @if (hasError('description', 'required')) {
+      <p-message severity="error" size="small" variant="simple"
+        >La descripción es obligatoria.</p-message
+      >
+      } @if (hasError('description', 'maxlength')) {
+      <p-message severity="error" size="small" variant="simple">Máximo 500 caracteres.</p-message>
+      }
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col gap-2">
+        <label for="category" class="font-medium">Categoría</label>
+        <input
+          pInputText
+          id="category"
+          formControlName="category"
+          placeholder="Ej. Indumentaria"
+          fluid
+        />
+        @if (hasError('category', 'required')) {
+        <p-message severity="error" size="small" variant="simple"
+          >La categoría es obligatoria.</p-message
+        >
+        }
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="brand" class="font-medium">Marca</label>
+        <input pInputText id="brand" formControlName="brand" placeholder="Ej. Nike" fluid />
+        @if (hasError('brand', 'required')) {
+        <p-message severity="error" size="small" variant="simple"
+          >La marca es obligatoria.</p-message
+        >
+        }
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="flex flex-col gap-2">
+        <label for="price" class="font-medium">Precio</label>
+        <p-inputnumber
+          inputId="price"
+          formControlName="price"
+          placeholder="Ej. 39.99"
+          mode="currency"
+          currency="ARS"
+          locale="es-AR"
+          [min]="0"
+          fluid
+        />
+        @if (hasError('price', 'required')) {
+        <p-message severity="error" size="small" variant="simple"
+          >El precio es obligatorio.</p-message
+        >
+        } @if (hasError('price', 'min')) {
+        <p-message severity="error" size="small" variant="simple"
+          >El precio no puede ser negativo.</p-message
+        >
+        }
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="rating" class="font-medium">Rating</label>
+        <p-inputnumber
+          inputId="rating"
+          formControlName="rating"
+          placeholder="Ej. 4.5"
+          mode="decimal"
+          [minFractionDigits]="1"
+          [maxFractionDigits]="1"
+          [min]="0"
+          [max]="5"
+          [step]="0.1"
+          [showButtons]="true"
+          locale="en-US"
+          fluid
+        />
+        @if (hasError('rating', 'min')) {
+        <p-message severity="error" size="small" variant="simple"
+          >El rating no puede ser menor a 0.</p-message
+        >
+        } @if (hasError('rating', 'max')) {
+        <p-message severity="error" size="small" variant="simple"
+          >El rating no puede ser mayor a 5.</p-message
+        >
+        }
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="imageUrl" class="font-medium">URL de la imagen</label>
+      <input
+        pInputText
+        id="imageUrl"
+        formControlName="imageUrl"
+        placeholder="https://ejemplo.com/imagen.jpg"
+        fluid
+      />
+      @if (hasError('imageUrl', 'required')) {
+      <p-message severity="error" size="small" variant="simple"
+        >La imagen es obligatoria.</p-message
+      >
+      } @if (form.controls.imageUrl.value) {
+      <img
+        [src]="form.controls.imageUrl.value"
+        alt="Vista previa"
+        class="w-32 h-32 object-cover rounded-md shadow mt-2"
+      />
+      }
+    </div>
+
+    <div class="flex items-center gap-3">
+      <p-toggleswitch inputId="featured" formControlName="featured" />
+      <label for="featured" class="font-medium">Producto destacado</label>
+    </div>
+
+    <div class="flex justify-end gap-2 pt-2">
+      <a pButton routerLink="/dashboard/products" severity="secondary" outlined>Cancelar</a>
+      <button pButton type="submit" [disabled]="saving() || loading()">
+        {{ isEdit ? 'Guardar cambios' : 'Crear producto' }}
+      </button>
+    </div>
+  </form>
+</section>
