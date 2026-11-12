@@ -3,12 +3,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { RippleModule } from 'primeng/ripple';
 import { MenuItem } from 'primeng/api';
-import { Home } from '@primeicons/angular/home';
-import { ObjectsColumn } from '@primeicons/angular/objects-column';
+import { PIcon } from '@primeicons/angular/p-icon';
 
 @Component({
   selector: 'app-navbar',
-  imports: [MenubarModule, RippleModule, RouterLink, RouterLinkActive, Home, ObjectsColumn],
+  imports: [MenubarModule, RippleModule, RouterLink, RouterLinkActive, PIcon],
   templateUrl: './navbar.html',
 })
 export class Navbar {
