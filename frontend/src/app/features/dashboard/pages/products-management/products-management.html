@@ -1,1 +1,97 @@
-<p>products-management works!</p>
+<section class="flex flex-col gap-6">
+  <header class="flex items-center justify-between">
+    <h1 class="text-2xl font-bold tracking-tight">Productos</h1>
+    <a pButton routerLink="/dashboard/products/new">
+      <svg data-p-icon="plus"></svg>
+      <span>Nuevo producto</span>
+    </a>
+  </header>
+
+  <p-table
+    [value]="products()"
+    [paginator]="true"
+    [rows]="10"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Producto</th>
+        <th>Categoría</th>
+        <th>Marca</th>
+        <th>Precio</th>
+        <th>Rating</th>
+        <th>Destacado</th>
+        <th class="text-right">Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-product>
+      <tr>
+        <td>
+          <div class="flex items-center gap-3">
+            <img
+              [src]="product.imageUrl"
+              [alt]="product.name"
+              class="w-12 h-12 object-cover rounded-md shadow"
+            />
+            <div class="flex flex-col">
+              <span class="font-medium">{{ product.name }}</span>
+              <span class="text-xs text-surface-500 dark:text-surface-400 line-clamp-1 max-w-xs">
+                {{ product.description }}
+              </span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <p-tag [value]="product.category" severity="secondary" />
+        </td>
+        <td>{{ product.brand }}</td>
+        <td>
+          <span class="font-semibold">{{ product.price | currency }}</span>
+        </td>
+        <td>
+          <p-rating [ngModel]="product.rating" [readonly]="true" />
+        </td>
+        <td>
+          <p-tag
+            [value]="product.featured ? 'Sí' : 'No'"
+            [severity]="product.featured ? 'success' : 'secondary'"
+          />
+        </td>
+        <td>
+          <div class="flex justify-end gap-2">
+            <a
+              pButton
+              [routerLink]="['/dashboard/products', product.id, 'edit']"
+              severity="secondary"
+              text
+              size="small"
+              iconOnly
+              aria-label="Editar"
+            >
+              <svg data-p-icon="pencil"></svg>
+            </a>
+            <button
+              pButton
+              type="button"
+              severity="danger"
+              text
+              size="small"
+              iconOnly
+              aria-label="Eliminar"
+              (click)="onDelete(product)"
+            >
+              <svg data-p-icon="trash"></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="7" class="text-center py-8">No hay productos para mostrar.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
