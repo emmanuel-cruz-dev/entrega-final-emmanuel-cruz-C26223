@@ -18,6 +18,15 @@ export class FeaturedProducts implements OnInit {
 
   featuredProducts = signal<Product[]>([]);
 
+  slidesPerPage = signal(3);
+
+  constructor() {
+    const update = () =>
+      this.slidesPerPage.set(window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3);
+    update();
+    window.addEventListener('resize', update);
+  }
+
   ngOnInit(): void {
     this.productService.getAll().subscribe({
       next: (res) => {
