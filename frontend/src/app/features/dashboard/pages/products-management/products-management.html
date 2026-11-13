@@ -50,7 +50,10 @@
           <span class="font-semibold">{{ product.price | currency }}</span>
         </td>
         <td>
-          <p-rating [ngModel]="product.rating" [readonly]="true" />
+          <div class="flex items-center gap-1 text-sm font-medium">
+            <svg data-p-icon="star-fill" class="text-primary"></svg>
+            <span>{{ product.rating | number : '1.1-1' }}</span>
+          </div>
         </td>
         <td>
           <p-tag
