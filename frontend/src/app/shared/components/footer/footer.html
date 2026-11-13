@@ -18,18 +18,14 @@
     </div>
 
     <nav class="flex items-center gap-8 text-sm font-medium">
+      @for (item of items; track item.label) {
       <a
-        routerLink="/"
+        [routerLink]="item.routerLink"
         class="text-surface-600 dark:text-surface-300 hover:text-primary transition-colors"
       >
-        Inicio
+        {{ item.label }}
       </a>
-      <a
-        routerLink="/dashboard"
-        class="text-surface-600 dark:text-surface-300 hover:text-primary transition-colors"
-      >
-        Dashboard
-      </a>
+      }
     </nav>
   </div>
 
