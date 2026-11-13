@@ -4,7 +4,7 @@ import { TitleStrategy, RouterStateSnapshot } from '@angular/router';
 
 @Injectable()
 export class AppTitleStrategy extends TitleStrategy {
-  private readonly appName = 'Crud Items';
+  private readonly appName = 'Catara · Catálogos digitales';
 
   constructor(private readonly title: Title) {
     super();
