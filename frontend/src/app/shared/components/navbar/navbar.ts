@@ -13,6 +13,7 @@ import { PIcon } from '@primeicons/angular/p-icon';
 export class Navbar {
   items: MenuItem[] = [
     { label: 'Inicio', icon: 'home', routerLink: '/' },
+    { label: 'Productos', icon: 'box', routerLink: '/products' },
     { label: 'Dashboard', icon: 'objects-column', routerLink: '/dashboard' },
   ];
 }
