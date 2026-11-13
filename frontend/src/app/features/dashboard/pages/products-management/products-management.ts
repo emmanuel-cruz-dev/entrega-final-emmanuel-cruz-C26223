@@ -1,14 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { RatingModule } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import { Plus } from '@primeicons/angular/plus';
 import { Pencil } from '@primeicons/angular/pencil';
 import { Trash } from '@primeicons/angular/trash';
+import { StarFill } from '@primeicons/angular/star-fill';
 
 import { Product } from 'src/app/core/models';
 import { ProductService } from 'src/app/features/products/services/product.service';
@@ -18,14 +17,14 @@ import { ProductService } from 'src/app/features/products/services/product.servi
   imports: [
     RouterLink,
     CurrencyPipe,
-    FormsModule,
+    DecimalPipe,
     TableModule,
     TagModule,
-    RatingModule,
     ButtonModule,
     Plus,
     Pencil,
     Trash,
+    StarFill,
   ],
   templateUrl: './products-management.html',
 })
