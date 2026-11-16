@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { ProductsManagement } from './pages/products-management/products-management';
 import { ProductForm } from './pages/product-form/product-form';
+import { CategoriesManagement } from './pages/categories-management/categories-management';
+import { CategoryForm } from './pages/category-form/category-form';
 
 export const DASHBOARD_ROUTES: Routes = [
   {
@@ -24,5 +26,20 @@ export const DASHBOARD_ROUTES: Routes = [
     path: 'products/:id/edit',
     component: ProductForm,
     title: 'Editar Producto',
+  },
+  {
+    path: 'products-categories',
+    component: CategoriesManagement,
+    title: 'Categorías',
+  },
+  {
+    path: 'products-categories/new',
+    component: CategoryForm,
+    title: 'Nueva Categoría',
+  },
+  {
+    path: 'products-categories/:id/edit',
+    component: CategoryForm,
+    title: 'Editar Categoría',
   },
 ];
