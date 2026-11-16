@@ -55,18 +55,33 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div class="flex flex-col gap-2">
-        <label for="category" class="font-medium">Categoría</label>
-        <input
-          pInputText
-          id="category"
-          formControlName="category"
-          placeholder="Ej. Indumentaria"
+        <label for="categoryId" class="font-medium">Categoría</label>
+        @if (categoriesLoaded() && categories().length === 0) {
+        <a
+          pButton
+          routerLink="/dashboard/products-categories/new"
+          size="small"
+          severity="primary"
+          outlined
+          class="w-full h-full"
+        >
+          <span>Creá una categoría para asignarla al producto</span>
+        </a>
+
+        } @if (categories().length > 0) {
+        <p-select
+          inputId="categoryId"
+          formControlName="categoryId"
+          [options]="categories()"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Seleccionar categoría"
           fluid
         />
-        @if (hasError('category', 'required')) {
-        <p-message severity="error" size="small" variant="simple"
-          >La categoría es obligatoria.</p-message
-        >
+        } @if (hasError('categoryId', 'required')) {
+        <p-message severity="error" size="small" variant="simple">
+          La categoría es obligatoria.
+        </p-message>
         }
       </div>
 
