@@ -7,10 +7,12 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
+import { SelectModule } from 'primeng/select';
 import { ArrowLeft } from '@primeicons/angular/arrow-left';
 
-import { CreateProduct } from 'src/app/core/models';
+import { Category, CreateProduct } from 'src/app/core/models';
 import { ProductService } from 'src/app/features/products/services/product.service';
+import { CategoryService } from 'src/app/features/categories/services/category.service';
 
 @Component({
   selector: 'app-product-form',
@@ -23,18 +25,22 @@ import { ProductService } from 'src/app/features/products/services/product.servi
     ToggleSwitchModule,
     ButtonModule,
     MessageModule,
+    SelectModule,
     ArrowLeft,
   ],
   templateUrl: './product-form.html',
 })
 export class ProductForm implements OnInit {
   private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   productId = signal<number | null>(null);
   loading = signal(false);
   saving = signal(false);
+  categories = signal<Category[]>([]);
+  categoriesLoaded = signal(false);
 
   form = new FormGroup({
     name: new FormControl('', {
@@ -45,7 +51,7 @@ export class ProductForm implements OnInit {
       nonNullable: true,
       validators: [Validators.required, Validators.maxLength(500)],
     }),
-    category: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    categoryId: new FormControl<number | null>(null, [Validators.required]),
     brand: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     price: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
     rating: new FormControl(0, {
@@ -61,6 +67,17 @@ export class ProductForm implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categoryService.getAll().subscribe({
+      next: (cats) => {
+        this.categories.set(cats);
+        this.categoriesLoaded.set(true);
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+        this.categoriesLoaded.set(true);
+      },
+    });
+
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
 
@@ -68,8 +85,17 @@ export class ProductForm implements OnInit {
     this.loading.set(true);
 
     this.productService.getById(Number(id)).subscribe({
-      next: ({ id: _id, ...product }) => {
-        this.form.patchValue(product);
+      next: (product) => {
+        this.form.patchValue({
+          name: product.name,
+          description: product.description,
+          categoryId: product.category?.id ?? null,
+          brand: product.brand,
+          price: product.price,
+          rating: product.rating,
+          imageUrl: product.imageUrl,
+          featured: product.featured,
+        });
         this.loading.set(false);
       },
       error: (err) => {
@@ -90,13 +116,23 @@ export class ProductForm implements OnInit {
       return;
     }
 
-    const value = this.form.getRawValue() as CreateProduct;
-    const id = this.productId();
+    const raw = this.form.getRawValue();
+    const payload: CreateProduct = {
+      name: raw.name,
+      description: raw.description,
+      category: { id: raw.categoryId! },
+      brand: raw.brand,
+      price: raw.price!,
+      rating: raw.rating,
+      imageUrl: raw.imageUrl,
+      featured: raw.featured,
+    };
 
+    const id = this.productId();
     this.saving.set(true);
 
     const request$ =
-      id !== null ? this.productService.update(id, value) : this.productService.create(value);
+      id !== null ? this.productService.update(id, payload) : this.productService.create(payload);
 
     request$.subscribe({
       next: () => this.router.navigate(['/dashboard/products']),
