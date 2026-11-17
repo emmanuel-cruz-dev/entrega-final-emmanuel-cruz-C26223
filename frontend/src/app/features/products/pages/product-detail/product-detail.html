@@ -1,1 +1,108 @@
-<p>product-detail works!</p>
+<section class="max-w-5xl mx-auto px-4 py-8 md:py-12">
+  <div class="mb-6">
+    <a pButton severity="secondary" outlined routerLink="/products">
+      <svg data-p-icon="arrow-left"></svg>
+      <p>Ir al catálogo</p>
+    </a>
+  </div>
+
+  @if (loading()) {
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+    <p-skeleton height="400px" styleClass="rounded-xl" />
+    <div class="flex flex-col gap-4">
+      <p-skeleton height="2rem" width="60%" />
+      <p-skeleton height="1.25rem" width="40%" />
+      <p-skeleton height="1rem" width="30%" />
+      <p-skeleton height="5rem" />
+      <p-skeleton height="2.5rem" width="50%" />
+      <p-skeleton height="3rem" />
+    </div>
+  </div>
+  } @else if (error()) {
+  <div
+    class="flex flex-col items-center justify-center text-center py-20 rounded-xl border border-dashed border-surface-300 dark:border-surface-700"
+  >
+    <p class="text-lg font-semibold mb-2">Algo salió mal</p>
+    <p class="text-sm text-muted-color mb-4">{{ error() }}</p>
+    <a pButton routerLink="/products" severity="secondary" outlined>Volver al catálogo</a>
+  </div>
+
+  } @else if (product(); as p) {
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+    <div class="relative rounded-xl overflow-hidden bg-surface-100 dark:bg-surface-800">
+      <img
+        [src]="p.imageUrl"
+        [alt]="p.name"
+        class="w-full h-80 md:h-full object-cover object-center"
+      />
+      @if (p.featured) {
+      <p-tag severity="info" value="Destacado" class="absolute! top-4 left-4" />
+      }
+    </div>
+
+    <div class="flex flex-col gap-5">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span
+          class="text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full bg-surface-100 dark:bg-surface-800 text-muted-color"
+        >
+          {{ p.category.name }}
+        </span>
+        <span class="text-xs text-muted-color">·</span>
+        <span class="text-xs font-semibold uppercase tracking-widest text-muted-color">
+          {{ p.brand }}
+        </span>
+      </div>
+
+      <h1 class="text-3xl lg:text-4xl font-bold tracking-tight leading-tight">{{ p.name }}</h1>
+
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-0.5">
+          @for (star of stars; track star) {
+          <svg
+            data-p-icon="star-fill"
+            class="size-4"
+            [class]="
+              star < Math.round(p.rating)
+                ? 'text-primary'
+                : 'text-surface-300 dark:text-surface-600'
+            "
+          ></svg>
+          }
+        </div>
+        <span class="text-sm font-semibold">{{ p.rating }}</span>
+        <span class="text-sm text-muted-color">/ 5</span>
+      </div>
+
+      <div class="flex items-baseline gap-2">
+        <span class="text-4xl font-extrabold">{{ p.price | currency }}</span>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-muted-color">Descripción</h2>
+        <p class="text-base leading-relaxed">{{ p.description }}</p>
+      </div>
+
+      <hr class="border-surface-200 dark:border-surface-700" />
+
+      <dl class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+        <div>
+          <dt class="text-muted-color font-medium">Categoría</dt>
+          <dd class="font-semibold mt-0.5">{{ p.category.name }}</dd>
+        </div>
+        <div>
+          <dt class="text-muted-color font-medium">Marca</dt>
+          <dd class="font-semibold mt-0.5">{{ p.brand }}</dd>
+        </div>
+        <div>
+          <dt class="text-muted-color font-medium">ID de producto</dt>
+          <dd class="font-semibold mt-0.5">#{{ p.id }}</dd>
+        </div>
+        <div>
+          <dt class="text-muted-color font-medium">Destacado</dt>
+          <dd class="font-semibold mt-0.5">{{ p.featured ? 'Sí' : 'No' }}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  }
+</section>
