@@ -27,7 +27,6 @@ export class FeaturedProducts implements OnInit {
   featuredProducts = signal<Product[]>([]);
   loading = signal<boolean>(false);
   slidesPerPage = signal(3);
-  skeletonItems = Array.from({ length: 3 });
 
   constructor() {
     const update = () =>
