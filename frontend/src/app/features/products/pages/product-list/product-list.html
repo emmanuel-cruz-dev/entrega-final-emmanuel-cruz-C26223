@@ -14,7 +14,7 @@
   <div class="flex items-center justify-between gap-4">
     <p class="text-sm text-muted-color">
       {{ products().length }}
-      @if (products().length === 1) { producto encontrado } @else { productos encontrados }
+      {{ products().length === 1 ? 'producto encontrado' : 'productos encontrados' }}
     </p>
   </div>
 
