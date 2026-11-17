@@ -16,7 +16,6 @@ export class ProductList implements OnInit {
 
   products = signal<Product[]>([]);
   loading = signal<boolean>(false);
-  skeletonItems = Array.from({ length: 3 });
 
   ngOnInit(): void {
     this.loading.set(true);
