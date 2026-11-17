@@ -1,17 +1,24 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { SkeletonModule } from 'primeng/skeleton';
 import { ChevronLeft } from '@primeicons/angular/chevron-left';
 import { ChevronRight } from '@primeicons/angular/chevron-right';
 
 import { Product } from 'src/app/core/models';
 import { ProductService } from 'src/app/features/products/services/product.service';
 import { ProductCard } from 'src/app/features/products/components/product-card/product-card';
+import { ProductCardSkeleton } from 'src/app/features/products/components/product-card-skeleton/product-card-skeleton';
 
 @Component({
   selector: 'app-featured-products',
-  imports: [ProductCard, CarouselModule, ButtonModule, SkeletonModule, ChevronLeft, ChevronRight],
+  imports: [
+    ProductCard,
+    CarouselModule,
+    ButtonModule,
+    ChevronLeft,
+    ChevronRight,
+    ProductCardSkeleton,
+  ],
   templateUrl: './featured-products.html',
 })
 export class FeaturedProducts implements OnInit {
