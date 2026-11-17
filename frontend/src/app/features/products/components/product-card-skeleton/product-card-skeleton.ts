@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-product-card-skeleton',
-  imports: [],
+  imports: [SkeletonModule],
   templateUrl: './product-card-skeleton.html',
 })
-export class ProductCardSkeleton {
-
-}
+export class ProductCardSkeleton {}
