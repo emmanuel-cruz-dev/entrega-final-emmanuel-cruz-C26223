@@ -3,8 +3,19 @@
     <h1 class="text-3xl lg:text-4xl font-bold tracking-tight">Todos los productos</h1>
     <p class="text-muted-color">Explorá nuestro catálogo y encontrá lo que estás buscando.</p>
   </header>
+
+  @if (loading()) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+    @for (item of skeletonItems; track $index) {
+    <app-product-card-skeleton />
+    }
+  </div>
+  } @else {
   <div class="flex items-center justify-between gap-4">
-    <p class="text-sm text-muted-color">{{ products().length }} productos encontrados</p>
+    <p class="text-sm text-muted-color">
+      {{ products().length }}
+      @if (products().length === 1) { producto encontrado } @else { productos encontrados }
+    </p>
   </div>
 
   @if (products().length > 0) {
@@ -28,5 +39,5 @@
       novedades.
     </p>
   </div>
-  }
+  } }
 </section>
