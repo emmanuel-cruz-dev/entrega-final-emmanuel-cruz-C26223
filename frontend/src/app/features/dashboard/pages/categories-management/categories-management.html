@@ -1,7 +1,7 @@
 <section class="flex flex-col gap-6">
   <header class="flex items-center justify-between">
     <h1 class="text-2xl font-bold tracking-tight">Categorías</h1>
-    <a pButton routerLink="/dashboard/products-categories/new">
+    <a pButton routerLink="/dashboard/categories/new">
       <svg data-p-icon="plus"></svg>
       <span>Nueva categoría</span>
     </a>
@@ -29,7 +29,7 @@
           <div class="flex justify-end gap-2">
             <a
               pButton
-              [routerLink]="['/dashboard/products-categories', category.id, 'edit']"
+              [routerLink]="['/dashboard/categories', category.id, 'edit']"
               severity="secondary"
               text
               size="small"

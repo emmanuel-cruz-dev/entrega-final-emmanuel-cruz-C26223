@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold tracking-tight">
       {{ isEdit ? 'Editar categoría' : 'Nueva categoría' }}
     </h1>
-    <a pButton routerLink="/dashboard/products-categories">
+    <a pButton routerLink="/dashboard/categories">
       <svg data-p-icon="arrow-left"></svg>
       <span>Volver a categorías</span>
     </a>
@@ -52,9 +52,7 @@
     </div>
 
     <div class="flex justify-end gap-2 pt-2">
-      <a pButton routerLink="/dashboard/products-categories" severity="secondary" outlined
-        >Cancelar</a
-      >
+      <a pButton routerLink="/dashboard/categories" severity="secondary" outlined>Cancelar</a>
       <button pButton type="submit" [disabled]="saving() || loading()">
         {{ isEdit ? 'Guardar cambios' : 'Crear categoría' }}
       </button>
