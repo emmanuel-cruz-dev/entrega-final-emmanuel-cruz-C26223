@@ -8,7 +8,7 @@ import { Category, CreateCategory, UpdateCategory } from 'src/app/core/models';
   providedIn: 'root',
 })
 export class CategoryService {
-  private readonly apiUrl = 'http://localhost:8080/api/product-categories';
+  private readonly apiUrl = 'http://localhost:8080/api/categories';
 
   constructor(private http: HttpClient) {}
 
@@ -32,4 +32,3 @@ export class CategoryService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
-
