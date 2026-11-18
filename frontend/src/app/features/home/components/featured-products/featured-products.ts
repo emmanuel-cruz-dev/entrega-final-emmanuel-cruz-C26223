@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { ChevronLeft } from '@primeicons/angular/chevron-left';
@@ -12,6 +13,7 @@ import { ProductCardSkeleton } from 'src/app/features/products/components/produc
 @Component({
   selector: 'app-featured-products',
   imports: [
+    RouterLink,
     ProductCard,
     CarouselModule,
     ButtonModule,
