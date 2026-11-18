@@ -1,6 +1,18 @@
-<p-menubar [model]="items" class="block border-l-0! border-r-0! rounded-none! py-2!">
+<p-menubar [model]="items" class="block border-l-0! border-r-0! rounded-none! py-3!">
   <ng-template #start>
-    <a routerLink="/" class="flex items-center mr-4 text-xl font-bold tracking-tight">Catara</a>
+    <a routerLink="/" class="flex items-center gap-2 mr-4 text-xl font-bold tracking-tight">
+      <figure class="flex items-center justify-center w-8 h-8">
+        <img
+          src="catara-round-logo.avif"
+          alt="Catara logo"
+          class="w-full object-cover"
+          width="600"
+          height="600"
+          loading="lazy"
+        />
+      </figure>
+      Catara</a
+    >
   </ng-template>
 
   <ng-template #item let-item>
