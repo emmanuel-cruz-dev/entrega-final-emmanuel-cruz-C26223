@@ -28,17 +28,17 @@ export const DASHBOARD_ROUTES: Routes = [
     title: 'Editar Producto',
   },
   {
-    path: 'products-categories',
+    path: 'categories',
     component: CategoriesManagement,
     title: 'Categorías',
   },
   {
-    path: 'products-categories/new',
+    path: 'categories/new',
     component: CategoryForm,
     title: 'Nueva Categoría',
   },
   {
-    path: 'products-categories/:id/edit',
+    path: 'categories/:id/edit',
     component: CategoryForm,
     title: 'Editar Categoría',
   },
