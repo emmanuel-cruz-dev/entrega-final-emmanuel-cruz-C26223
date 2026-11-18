@@ -29,7 +29,7 @@ export class DashboardLayout implements OnInit, OnDestroy {
   navItems: NavItem[] = [
     { icon: 'objects-column', label: 'Dashboard', route: '/dashboard', exact: true },
     { icon: 'box', label: 'Productos', route: '/dashboard/products' },
-    { icon: 'tag', label: 'Categorías de productos', route: '/dashboard/products-categories' },
+    { icon: 'tag', label: 'Categorías', route: '/dashboard/categories' },
   ];
 
   ngOnInit() {
