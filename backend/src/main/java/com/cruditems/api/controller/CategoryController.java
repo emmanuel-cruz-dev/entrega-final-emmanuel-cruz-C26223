@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -109,13 +111,18 @@ public class CategoryController {
         @ApiResponse(responseCode = "404", description = "Categoría no encontrada", content = @Content)
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(
+    public ResponseEntity<?> delete(
             @Parameter(description = "ID de la categoría a eliminar", required = true, example = "1")
             @PathVariable Long id) {
         if (categoryService.getCategoryById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        try {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", e.getMessage()));
+        }
     }
 }
