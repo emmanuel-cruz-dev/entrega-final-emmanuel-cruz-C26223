@@ -1,5 +1,7 @@
 package com.cruditems.api.controller;
 
+import com.cruditems.api.dto.PageResponse;
+import com.cruditems.api.dto.ProductFilter;
 import com.cruditems.api.dto.ProductRequest;
 import com.cruditems.api.model.Product;
 import com.cruditems.api.service.ProductService;
@@ -10,7 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +34,37 @@ public class ProductController {
     }
 
     @Operation(
-        summary = "Listar todos los productos",
-        description = "Retorna la lista completa de productos registrados en el sistema."
+            summary = "Listar productos (paginado y filtrable)",
+            description = "Retorna productos paginados. Todos los filtros son opcionales y combinables."
     )
-    @ApiResponse(responseCode = "200", description = "Lista de productos obtenida exitosamente")
+    @ApiResponse(responseCode = "200", description = "Página de productos obtenida exitosamente")
     @GetMapping
-    public List<Product> list() {
-        return productService.listProducts();
+    public PageResponse<Product> list(
+            @Parameter(description = "Texto a buscar en nombre, descripción o marca")
+            @RequestParam(required = false) String search,
+            @Parameter(description = "IDs de categorías (puede repetirse o separarse por coma)", example = "1,2")
+            @RequestParam(required = false) List<Long> categoryId,
+            @Parameter(description = "Marca exacta")
+            @RequestParam(required = false) String brand,
+            @Parameter(description = "Filtrar por destacados", example = "true")
+            @RequestParam(required = false) Boolean featured,
+            @Parameter(description = "Precio mínimo")
+            @RequestParam(required = false) Double minPrice,
+            @Parameter(description = "Precio máximo")
+            @RequestParam(required = false) Double maxPrice,
+            @Parameter(description = "Rating mínimo (0 a 5)")
+            @RequestParam(required = false) Double minRating,
+            @ParameterObject @PageableDefault(size = 9, sort = "id") Pageable pageable) {
+
+        ProductFilter filter = new ProductFilter(
+                search, categoryId, brand, featured, minPrice, maxPrice, minRating);
+        return PageResponse.from(productService.searchProducts(filter, pageable));
+    }
+
+    @Operation(summary = "Listar marcas disponibles", description = "Útil para armar el filtro de marcas en el frontend.")
+    @GetMapping("/brands")
+    public List<String> brands() {
+        return productService.listBrands();
     }
 
     @Operation(
