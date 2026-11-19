@@ -67,11 +67,14 @@ export class CategoriesManagement implements OnInit {
       },
       error: (err) => {
         console.error('Error deleting category:', err);
+        const detail =
+          err?.error?.message ||
+          'No se pudo eliminar la categoría. Intentá de nuevo.';
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo eliminar la categoría. Intentá de nuevo.',
-          life: 3000,
+          detail,
+          life: 5000,
         });
       },
     });
