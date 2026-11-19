@@ -2,6 +2,7 @@ package com.cruditems.api.service;
 
 import com.cruditems.api.model.Category;
 import com.cruditems.api.repository.CategoryRepository;
+import com.cruditems.api.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -39,6 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id) {
+        boolean hasProducts = !productRepository.findByCategoryId(id).isEmpty();
+        if (hasProducts) {
+            throw new IllegalStateException("Categoría en uso. Reasigna o elimina sus productos antes de borrarla.");
+        }
         categoryRepository.deleteById(id);
     }
 }
