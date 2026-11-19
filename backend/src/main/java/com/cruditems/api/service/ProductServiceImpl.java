@@ -1,5 +1,6 @@
 package com.cruditems.api.service;
 
+import com.cruditems.api.dto.ProductRequest;
 import com.cruditems.api.model.Category;
 import com.cruditems.api.model.Product;
 import com.cruditems.api.repository.CategoryRepository;
@@ -33,14 +34,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product saveProduct(Product product) {
-        resolveCategory(product);
+    public Product saveProduct(ProductRequest request) {
+        Product product = toProduct(request);
         return productRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
-        resolveCategory(product);
+    public Product updateProduct(Long id, ProductRequest request) {
+        Product product = toProduct(request);
         product.setId(id);
         return productRepository.save(product);
     }
@@ -49,12 +50,24 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+    
+    private Product toProduct(ProductRequest request) {
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setBrand(request.getBrand());
+        product.setPrice(request.getPrice());
+        product.setRating(request.getRating());
+        product.setImageUrl(request.getImageUrl());
+        product.setFeatured(request.getFeatured());
 
-    private void resolveCategory(Product product) {
-        if (product.getCategory() != null && product.getCategory().getId() != null) {
-            Category category = categoryRepository.findById(product.getCategory().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        if (request.getCategory() != null && request.getCategory().getId() != null) {
+            Category category = categoryRepository.findById(request.getCategory().getId())
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            "Category not found with id: " + request.getCategory().getId()));
             product.setCategory(category);
         }
+
+        return product;
     }
 }
