@@ -1,5 +1,6 @@
 package com.cruditems.api.controller;
 
+import com.cruditems.api.dto.ProductRequest;
 import com.cruditems.api.model.Product;
 import com.cruditems.api.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,10 +70,10 @@ public class ProductController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                 description = "Datos del nuevo producto",
                 required = true,
-                content = @Content(schema = @Schema(implementation = Product.class))
+                content = @Content(schema = @Schema(implementation = ProductRequest.class))
             )
-            @RequestBody Product product) {
-        return productService.saveProduct(product);
+            @RequestBody ProductRequest request) {
+        return productService.saveProduct(request);
     }
 
     @Operation(
@@ -91,13 +92,13 @@ public class ProductController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                 description = "Nuevos datos del producto",
                 required = true,
-                content = @Content(schema = @Schema(implementation = Product.class))
+                content = @Content(schema = @Schema(implementation = ProductRequest.class))
             )
-            @RequestBody Product product) {
+            @RequestBody ProductRequest request) {
         if (productService.getProductById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(productService.updateProduct(id, product));
+        return ResponseEntity.ok(productService.updateProduct(id, request));
     }
 
     @Operation(
