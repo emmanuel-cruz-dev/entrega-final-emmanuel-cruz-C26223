@@ -24,7 +24,11 @@
     <ng-template #body let-category>
       <tr>
         <td class="font-medium">{{ category.name }}</td>
-        <td class="text-surface-500 dark:text-surface-400">{{ category.description }}</td>
+        <td class="text-surface-500 dark:text-surface-400">
+          <span class="line-clamp-1 max-w-2xl">
+            {{ category.description }}
+          </span>
+        </td>
         <td>
           <div class="flex justify-end gap-2">
             <a
