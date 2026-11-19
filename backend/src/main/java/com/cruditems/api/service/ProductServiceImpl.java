@@ -1,11 +1,15 @@
 package com.cruditems.api.service;
 
+import com.cruditems.api.dto.ProductFilter;
 import com.cruditems.api.dto.ProductRequest;
 import com.cruditems.api.model.Category;
 import com.cruditems.api.model.Product;
 import com.cruditems.api.repository.CategoryRepository;
 import com.cruditems.api.repository.ProductRepository;
+import com.cruditems.api.repository.ProductSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,7 +54,17 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
-    
+
+    @Override
+    public Page<Product> searchProducts(ProductFilter filter, Pageable pageable) {
+        return productRepository.findAll(ProductSpecifications.withFilter(filter), pageable);
+    }
+
+    @Override
+    public List<String> listBrands() {
+        return productRepository.findDistinctBrands();
+    }
+
     private Product toProduct(ProductRequest request) {
         Product product = new Product();
         product.setName(request.getName());
