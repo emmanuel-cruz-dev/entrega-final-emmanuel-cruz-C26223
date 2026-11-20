@@ -22,6 +22,7 @@ export class CategoriesManagement implements OnInit {
   private messageService = inject(MessageService);
 
   categories = signal<Category[]>([]);
+  totalElements = signal<number>(0);
 
   ngOnInit(): void {
     this.loadCategories();
@@ -29,7 +30,10 @@ export class CategoriesManagement implements OnInit {
 
   loadCategories(): void {
     this.categoryService.getAll().subscribe({
-      next: (res) => this.categories.set(res),
+      next: (res) => {
+        this.categories.set(res);
+        this.totalElements.set(res.length);
+      },
       error: (err) => console.error('Error fetching categories:', err),
     });
   }
@@ -67,9 +71,7 @@ export class CategoriesManagement implements OnInit {
       },
       error: (err) => {
         console.error('Error deleting category:', err);
-        const detail =
-          err?.error?.message ||
-          'No se pudo eliminar la categoría. Intentá de nuevo.';
+        const detail = err?.error?.message || 'No se pudo eliminar la categoría. Intentá de nuevo.';
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
