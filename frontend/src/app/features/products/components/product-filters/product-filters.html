@@ -1,1 +1,70 @@
-<p>product-filters works!</p>
+<form [formGroup]="form" class="space-y-5">
+  <div class="flex items-center justify-between">
+    <h2 class="font-semibold">Filtros</h2>
+    @if(hasActiveFilters()) {
+    <button pButton severity="secondary" size="small" (click)="clear()">Limpiar</button>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="search" class="text-sm font-medium">Buscar</label>
+    <input
+      pInputText
+      id="search"
+      formControlName="search"
+      placeholder="Nombre, descripción o marca"
+      class="w-full"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium">Categorías</label>
+    <p-multiselect
+      formControlName="categoryId"
+      [options]="categories()"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Todas"
+      display="chip"
+      [showClear]="true"
+      class="w-full"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium">Marca</label>
+    <p-select
+      formControlName="brand"
+      [options]="brands()"
+      placeholder="Todas"
+      [showClear]="true"
+      class="w-full"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium">Precio</label>
+    <div class="grid grid-cols-2 gap-3">
+      <p-inputnumber formControlName="minPrice" placeholder="Mín" prefix="$" [min]="0" fluid />
+      <p-inputnumber formControlName="maxPrice" placeholder="Máx" prefix="$" [min]="0" fluid />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium">Valoración</label>
+    <p-select
+      formControlName="minRating"
+      [options]="ratingOptions"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Cualquiera"
+      [showClear]="true"
+      class="w-full"
+    />
+  </div>
+
+  <div class="flex items-center justify-between">
+    <label for="featured" class="text-sm font-medium">Solo destacados</label>
+    <p-toggleswitch inputId="featured" formControlName="featured" />
+  </div>
+</form>
