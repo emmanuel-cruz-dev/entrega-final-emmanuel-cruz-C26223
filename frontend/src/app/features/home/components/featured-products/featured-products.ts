@@ -38,6 +38,10 @@ export class FeaturedProducts implements OnInit {
   }
 
   ngOnInit(): void {
+    this.load();
+  }
+
+  load(): void {
     this.loading.set(true);
     this.productService.getAll({ featured: true }, { size: 12, sort: 'rating,desc' }).subscribe({
       next: (res) => {
