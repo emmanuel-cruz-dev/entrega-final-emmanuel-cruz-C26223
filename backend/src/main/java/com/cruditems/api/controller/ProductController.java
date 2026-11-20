@@ -54,7 +54,7 @@ public class ProductController {
             @RequestParam(required = false) Double maxPrice,
             @Parameter(description = "Rating mínimo (0 a 5)")
             @RequestParam(required = false) Double minRating,
-            @ParameterObject @PageableDefault(size = 9, sort = "id") Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "id") Pageable pageable) {
 
         ProductFilter filter = new ProductFilter(
                 search, categoryId, brand, featured, minPrice, maxPrice, minRating);
