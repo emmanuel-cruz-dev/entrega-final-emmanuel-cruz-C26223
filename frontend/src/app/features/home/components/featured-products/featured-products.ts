@@ -39,9 +39,9 @@ export class FeaturedProducts implements OnInit {
 
   ngOnInit(): void {
     this.loading.set(true);
-    this.productService.getAll().subscribe({
+    this.productService.getAll({ featured: true }, { size: 12, sort: 'rating,desc' }).subscribe({
       next: (res) => {
-        this.featuredProducts.set(res.filter((p) => p.featured));
+        this.featuredProducts.set(res.content);
         this.loading.set(false);
       },
       error: (err) => {
