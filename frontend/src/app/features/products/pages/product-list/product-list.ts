@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonDirective } from 'primeng/button';
+import { DrawerModule } from 'primeng/drawer';
 import { PIcon } from '@primeicons/angular/p-icon';
 
 import { Product, ProductFilter } from 'src/app/core/models';
@@ -14,6 +15,7 @@ import { ProductCardSkeleton } from '../../components/product-card-skeleton/prod
   imports: [
     PaginatorModule,
     ButtonDirective,
+    DrawerModule,
     PIcon,
     ProductCard,
     ProductFilters,
@@ -27,8 +29,8 @@ export class ProductList implements OnInit {
   products = signal<Product[]>([]);
   loading = signal<boolean>(false);
   totalElements = signal<number>(0);
-  showFilters = signal<boolean>(false);
   hasActiveFilters = computed(() => Object.keys(this.filter()).length > 0);
+  visible: boolean = false;
 
   filter = signal<ProductFilter>({});
   page = signal<number>(0);
