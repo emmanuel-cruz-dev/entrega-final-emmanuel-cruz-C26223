@@ -2,7 +2,7 @@
   <header class="flex items-center justify-between">
     <h1 class="text-2xl font-bold tracking-tight">Productos ({{ totalElements() }})</h1>
     <a pButton routerLink="/dashboard/products/new">
-      <svg data-p-icon="plus"></svg>
+      <svg pIcon="plus"></svg>
       <span>Nuevo producto</span>
     </a>
   </header>
@@ -58,7 +58,7 @@
         </td>
         <td>
           <div class="flex items-center gap-1 text-sm font-medium">
-            <svg data-p-icon="star-fill" class="text-primary"></svg>
+            <svg pIcon="star-fill" class="text-primary"></svg>
             <span>{{ product.rating | number : '1.1-1' }}</span>
           </div>
         </td>
@@ -79,7 +79,7 @@
               iconOnly
               aria-label="Editar"
             >
-              <svg data-p-icon="pencil"></svg>
+              <svg pIcon="pencil"></svg>
             </a>
             <button
               pButton
@@ -91,7 +91,7 @@
               aria-label="Eliminar"
               (click)="onDelete(product)"
             >
-              <svg data-p-icon="trash"></svg>
+              <svg pIcon="trash"></svg>
             </button>
           </div>
         </td>

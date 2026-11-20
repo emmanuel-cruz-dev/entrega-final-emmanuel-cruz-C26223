@@ -6,10 +6,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule, TableLazyLoadEvent } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
-import { Plus } from '@primeicons/angular/plus';
-import { Pencil } from '@primeicons/angular/pencil';
-import { Trash } from '@primeicons/angular/trash';
-import { StarFill } from '@primeicons/angular/star-fill';
+import { PIcon } from '@primeicons/angular/p-icon';
 
 import { Product } from 'src/app/core/models';
 import { ProductService } from 'src/app/features/products/services/product.service';
@@ -24,10 +21,7 @@ import { ProductService } from 'src/app/features/products/services/product.servi
     TableModule,
     TagModule,
     ButtonModule,
-    Plus,
-    Pencil,
-    Trash,
-    StarFill,
+    PIcon,
   ],
   templateUrl: './products-management.html',
 })
