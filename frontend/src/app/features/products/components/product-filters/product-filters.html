@@ -1,6 +1,9 @@
 <form [formGroup]="form" class="space-y-5">
   <div class="flex items-center justify-between">
-    <h2 class="font-semibold">Filtros</h2>
+    <h2 class="font-semibold flex items-center gap-1">
+      <svg pIcon="filter"></svg>
+      Filtros
+    </h2>
     @if(hasActiveFilters()) {
     <button pButton severity="secondary" size="small" (click)="clear()">Limpiar</button>
     }

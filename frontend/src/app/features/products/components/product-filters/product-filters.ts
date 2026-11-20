@@ -8,6 +8,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ButtonDirective } from 'primeng/button';
+import { PIcon } from '@primeicons/angular/p-icon';
 
 import { Category, ProductFilter } from 'src/app/core/models';
 import { ProductService } from '../../services/product.service';
@@ -23,6 +24,7 @@ import { CategoryService } from 'src/app/features/categories/services';
     SelectModule,
     ToggleSwitchModule,
     ButtonDirective,
+    PIcon,
   ],
   templateUrl: './product-filters.html',
 })
