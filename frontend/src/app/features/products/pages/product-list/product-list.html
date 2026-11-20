@@ -7,7 +7,7 @@
   <div class="flex flex-col lg:flex-row gap-4 lg:gap-8 items-stretch lg:items-start">
     <div class="lg:hidden">
       <p-drawer [(visible)]="visible">
-        <app-product-filters (filterChange)="onFilterChange($event)" />
+        <app-product-filters [value]="filter()" (filterChange)="onFilterChange($event)" />
       </p-drawer>
       <button type="button" pButton (click)="visible = true" severity="secondary">
         <svg pIcon="sliders-h" /> Filtros
@@ -17,7 +17,7 @@
     <aside
       class="hidden lg:w-68 shrink-0 lg:block rounded-xl border border-surface-200 dark:border-surface-700 p-4 lg:sticky lg:top-4"
     >
-      <app-product-filters (filterChange)="onFilterChange($event)" />
+      <app-product-filters [value]="filter()" (filterChange)="onFilterChange($event)" />
     </aside>
 
     <div class="flex-1 min-w-0 space-y-6">
