@@ -1,4 +1,14 @@
-import { Component, DestroyRef, inject, OnInit, output, signal, computed } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+  computed,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs';
@@ -35,9 +45,34 @@ export class ProductFilters implements OnInit {
   private categoryService = inject(CategoryService);
 
   filterChange = output<ProductFilter>();
-
   categories = signal<Category[]>([]);
   brands = signal<string[]>([]);
+  value = input<ProductFilter>({});
+
+  private lastEmitted = '';
+
+  constructor() {
+    effect(() => {
+      const f = this.value();
+      const incoming = JSON.stringify(f);
+
+      if (incoming === this.lastEmitted) return;
+      this.lastEmitted = incoming;
+
+      this.form.patchValue(
+        {
+          search: f.search ?? '',
+          categoryId: f.categoryId ?? [],
+          brand: f.brand ?? null,
+          featured: f.featured ?? false,
+          minPrice: f.minPrice ?? null,
+          maxPrice: f.maxPrice ?? null,
+          minRating: f.minRating ?? null,
+        },
+        { emitEvent: false }
+      );
+    });
+  }
 
   ratingOptions = [
     { label: '4 estrellas o más', value: 4 },
@@ -72,7 +107,11 @@ export class ProductFilters implements OnInit {
 
     this.form.valueChanges
       .pipe(debounceTime(400), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.filterChange.emit(this.buildFilter()));
+      .subscribe(() => {
+        const filter = this.buildFilter();
+        this.lastEmitted = JSON.stringify(filter);
+        this.filterChange.emit(filter);
+      });
   }
 
   clear(): void {
