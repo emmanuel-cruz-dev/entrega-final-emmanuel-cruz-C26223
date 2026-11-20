@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Product, CreateProduct, UpdateProduct } from 'src/app/core/models';
+import {
+  Product,
+  CreateProduct,
+  UpdateProduct,
+  PageResponse,
+  ProductFilter,
+  PageParams,
+} from 'src/app/core/models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +19,29 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getAll(
+    filter: ProductFilter = {},
+    pageParams: PageParams = {}
+  ): Observable<PageResponse<Product>> {
+    let params = new HttpParams();
+
+    const { categoryId, ...rest } = filter;
+
+    Object.entries({ ...rest, ...pageParams }).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, String(value));
+      }
+    });
+
+    categoryId?.forEach((id) => {
+      params = params.append('categoryId', id);
+    });
+
+    return this.http.get<PageResponse<Product>>(this.apiUrl, { params });
+  }
+
+  getBrands(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/brands`);
   }
 
   getById(id: number): Observable<Product> {
