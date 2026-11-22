@@ -1,1 +1,248 @@
-<p>dashboard works!</p>
+<section class="flex flex-col gap-8">
+  <header class="flex flex-col gap-1">
+    <h1 class="text-2xl font-bold tracking-tight">Dashboard</h1>
+    <p class="text-sm text-surface-500 dark:text-surface-400">
+      Resumen general del catálogo de productos
+    </p>
+  </header>
+
+  @if (error()) {
+  <div
+    class="flex flex-col items-center gap-4 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 p-8 text-center"
+  >
+    <div
+      class="flex size-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/40"
+    >
+      <svg pIcon="times-circle" class="text-red-500 size-6"></svg>
+    </div>
+    <div>
+      <p class="font-semibold text-red-700 dark:text-red-400">Error al cargar el dashboard</p>
+      <p class="text-sm text-red-600 dark:text-red-500 mt-1">{{ error() }}</p>
+    </div>
+    <button pButton severity="danger" outlined (click)="retry()">Reintentar</button>
+  </div>
+  }
+
+  <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    @if (loading()) { @for (i of [1, 2, 3, 4]; track i) {
+    <div
+      class="rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-3"
+    >
+      <p-skeleton height="1rem" width="60%" />
+      <p-skeleton height="2.25rem" width="45%" />
+      <p-skeleton height="0.75rem" width="50%" />
+    </div>
+    } } @else if (!error()) { @for (card of statCards(); track card.label) {
+    <div
+      class="rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-2 transition-shadow hover:shadow-md"
+    >
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-medium text-surface-500 dark:text-surface-400">{{
+          card.label
+        }}</span>
+        <div
+          class="flex size-9 items-center justify-center rounded-lg bg-surface-100 dark:bg-surface-800"
+        >
+          <svg [pIcon]="card.icon" [ngClass]="[card.colorClass, 'size-4']"></svg>
+        </div>
+      </div>
+      <span class="text-3xl font-bold tracking-tight">{{ card.value }}</span>
+      @if (card.route) {
+      <a
+        [routerLink]="card.route"
+        class="text-xs text-primary hover:underline flex items-center gap-1 w-fit"
+      >
+        Ver detalle
+      </a>
+      }
+    </div>
+    } }
+  </div>
+
+  @if (!loading() && !error() && allProducts().length > 0) {
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+    <div
+      class="lg:col-span-2 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-4"
+    >
+      <div>
+        <h2 class="font-semibold text-base">Productos por categoría</h2>
+        <p class="text-xs text-surface-400 mt-0.5">Distribución del catálogo</p>
+      </div>
+      <div style="height: 220px; position: relative">
+        <p-chart
+          type="doughnut"
+          [data]="categoryChartData()"
+          [options]="doughnutOptions"
+          height="220"
+        />
+      </div>
+    </div>
+
+    <div
+      class="lg:col-span-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-4"
+    >
+      <div>
+        <h2 class="font-semibold text-base">Productos por marca</h2>
+        <p class="text-xs text-surface-400 mt-0.5">
+          Top {{ brandStats().length > 8 ? 8 : brandStats().length }} marcas
+        </p>
+      </div>
+      <div style="height: 220px; position: relative">
+        <p-chart type="bar" [data]="brandChartData()" [options]="chartOptions" height="220" />
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <div
+      class="rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-4"
+    >
+      <div>
+        <h2 class="font-semibold text-base">Marcas</h2>
+        <p class="text-xs text-surface-400 mt-0.5">
+          {{ brands().length }} marcas distintas en el catálogo
+        </p>
+      </div>
+      <div class="flex flex-col divide-y divide-surface-100 dark:divide-surface-800">
+        @for (brand of brandStats().slice(0, 6); track brand.name) {
+        <div class="flex items-center justify-between py-2.5">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="size-2 rounded-full bg-primary shrink-0"></div>
+            <span class="font-medium text-sm truncate">{{ brand.name }}</span>
+          </div>
+          <div class="flex items-center gap-4 shrink-0 text-sm text-surface-500">
+            <span>{{ brand.count }} prod.</span>
+            <div class="flex items-center gap-1">
+              <svg pIcon="star-fill" class="text-amber-400 size-3"></svg>
+              <span>{{ brand.avgRating | number : '1.1-1' }}</span>
+            </div>
+            <span class="font-medium text-surface-700 dark:text-surface-300">
+              {{ brand.avgPrice | currency }}
+            </span>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div
+      class="rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-4"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="font-semibold text-base">Mejor valorados</h2>
+          <p class="text-xs text-surface-400 mt-0.5">Top 5 productos por rating</p>
+        </div>
+        <a pButton routerLink="/dashboard/products" severity="secondary" text size="small">
+          Ver todos
+        </a>
+      </div>
+      <div class="flex flex-col divide-y divide-surface-100 dark:divide-surface-800">
+        @for (product of topRated(); track product.id; let i = $index) {
+        <div class="flex items-center gap-3 py-2.5">
+          <span
+            class="flex size-6 items-center justify-center rounded-full text-xs font-bold shrink-0"
+            [ngClass]="{
+              'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400': i === 0,
+              'bg-surface-100 text-surface-600 dark:bg-surface-800 dark:text-surface-400': i > 0
+            }"
+          >
+            {{ i + 1 }}
+          </span>
+          <img
+            [src]="product.imageUrl"
+            [alt]="product.name"
+            class="size-9 rounded-md object-cover shrink-0 bg-surface-100"
+            loading="lazy"
+            onerror="this.src=''"
+          />
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium truncate">{{ product.name }}</p>
+            <p class="text-xs text-surface-400 truncate">{{ product.category.name }}</p>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <svg pIcon="star-fill" class="text-amber-400 size-3"></svg>
+            <span class="text-sm font-semibold">{{ product.rating | number : '1.1-1' }}</span>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5"
+  >
+    <h2 class="font-semibold text-base mb-4">Métricas generales</h2>
+    <div class="grid grid-cols-2 gap-6 sm:grid-cols-4">
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-surface-400 uppercase tracking-wide">Rating promedio</span>
+        <div class="flex items-center gap-1.5">
+          <svg pIcon="star-fill" class="text-amber-400 size-4"></svg>
+          <span class="text-2xl font-bold">{{ avgRating() | number : '1.1-1' }}</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-surface-400 uppercase tracking-wide">Precio promedio</span>
+        <span class="text-2xl font-bold">{{ avgPrice() | currency }}</span>
+      </div>
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-surface-400 uppercase tracking-wide">Productos destacados</span>
+        <div class="flex items-baseline gap-1.5">
+          <span class="text-2xl font-bold">{{ featuredCount() }}</span>
+          <span class="text-sm text-surface-400">/ {{ totalProducts() }}</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <span class="text-xs text-surface-400 uppercase tracking-wide">Marcas únicas</span>
+        <span class="text-2xl font-bold">{{ brands().length }}</span>
+      </div>
+    </div>
+  </div>
+
+  } @if (!loading() && !error() && allProducts().length === 0) {
+  <div
+    class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-surface-300 dark:border-surface-600 p-12 text-center"
+  >
+    <div
+      class="flex size-16 items-center justify-center rounded-full bg-surface-100 dark:bg-surface-800"
+    >
+      <svg pIcon="box" class="text-surface-400 size-8"></svg>
+    </div>
+    <div>
+      <p class="font-semibold text-surface-600 dark:text-surface-300">No hay productos aún</p>
+      <p class="text-sm text-surface-400 mt-1">
+        Comenzá agregando productos al catálogo para ver las estadísticas.
+      </p>
+    </div>
+    <a pButton routerLink="/dashboard/products/new"> Nuevo producto </a>
+  </div>
+  } @if (loading()) {
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+    <div
+      class="lg:col-span-2 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-3"
+    >
+      <p-skeleton height="1.25rem" width="50%" />
+      <p-skeleton height="220px" />
+    </div>
+    <div
+      class="lg:col-span-3 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-3"
+    >
+      <p-skeleton height="1.25rem" width="40%" />
+      <p-skeleton height="220px" />
+    </div>
+  </div>
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    @for (i of [1, 2]; track i) {
+    <div
+      class="rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 p-5 flex flex-col gap-3"
+    >
+      <p-skeleton height="1.25rem" width="40%" />
+      @for (j of [1, 2, 3, 4, 5]; track j) {
+      <p-skeleton height="2.5rem" />
+      }
+    </div>
+    }
+  </div>
+  }
+</section>
