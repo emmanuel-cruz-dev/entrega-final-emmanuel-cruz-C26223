@@ -3,10 +3,11 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { ProductCarousel } from '../product-carousel/product-carousel';
 import { ProductService } from '../../services/product.service';
 import { Product } from 'src/app/core/models';
+import { FeaturedProducts } from '../featured-products/featured-products';
 
 @Component({
   selector: 'app-related-products',
-  imports: [ProductCarousel],
+  imports: [ProductCarousel, FeaturedProducts],
   template: `
     @if(products().length > 0) {
     <app-product-carousel
@@ -17,6 +18,8 @@ import { Product } from 'src/app/core/models';
       viewAllLink="/products"
       [viewAllQueryParams]="{ categoryId: product().category.id }"
     />
+    } @else {
+    <app-featured-products />
     }
   `,
 })
