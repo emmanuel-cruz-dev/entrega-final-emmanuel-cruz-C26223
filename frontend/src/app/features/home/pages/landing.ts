@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { FeaturedProducts } from '../components/featured-products/featured-products';
+import { FeaturedProducts } from '../../products/components/featured-products/featured-products';
 
 @Component({
   selector: 'app-landing',
