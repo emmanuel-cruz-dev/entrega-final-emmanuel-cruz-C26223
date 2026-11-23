@@ -1,4 +1,5 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
+
 import { ProductCarousel } from '../product-carousel/product-carousel';
 import { ProductService } from '../../services/product.service';
 import { Product } from 'src/app/core/models';
