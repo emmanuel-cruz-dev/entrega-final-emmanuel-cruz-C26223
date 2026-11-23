@@ -9,10 +9,20 @@ import { StarFill } from '@primeicons/angular/star-fill';
 
 import { Product } from 'src/app/core/models';
 import { ProductService } from '../../services/product.service';
+import { RelatedProducts } from '../../components/related-products/related-products';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [RouterLink, CurrencyPipe, TagModule, ButtonModule, SkeletonModule, ArrowLeft, StarFill],
+  imports: [
+    RouterLink,
+    CurrencyPipe,
+    TagModule,
+    ButtonModule,
+    SkeletonModule,
+    ArrowLeft,
+    StarFill,
+    RelatedProducts,
+  ],
   templateUrl: './product-detail.html',
 })
 export class ProductDetail implements OnInit {
@@ -27,23 +37,26 @@ export class ProductDetail implements OnInit {
   stars = [0, 1, 2, 3, 4];
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      this.router.navigate(['/products']);
-      return;
-    }
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (!id) {
+        this.router.navigate(['/products']);
+        return;
+      }
 
-    this.loading.set(true);
-    this.productService.getById(Number(id)).subscribe({
-      next: (res) => {
-        this.product.set(res);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Error fetching product:', err);
-        this.error.set('No se pudo cargar el producto.');
-        this.loading.set(false);
-      },
+      this.loading.set(true);
+      this.error.set(null);
+      this.productService.getById(Number(id)).subscribe({
+        next: (res) => {
+          this.product.set(res);
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error('Error fetching product:', err);
+          this.error.set('No se pudo cargar el producto.');
+          this.loading.set(false);
+        },
+      });
     });
   }
 }
