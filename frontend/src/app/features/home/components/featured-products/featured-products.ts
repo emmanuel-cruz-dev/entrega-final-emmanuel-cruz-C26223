@@ -1,27 +1,21 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CarouselModule } from 'primeng/carousel';
-import { ButtonModule } from 'primeng/button';
-import { ChevronLeft } from '@primeicons/angular/chevron-left';
-import { ChevronRight } from '@primeicons/angular/chevron-right';
 
 import { Product } from 'src/app/core/models';
 import { ProductService } from 'src/app/features/products/services/product.service';
-import { ProductCard } from 'src/app/features/products/components/product-card/product-card';
-import { ProductCardSkeleton } from 'src/app/features/products/components/product-card-skeleton/product-card-skeleton';
+import { ProductCarousel } from 'src/app/features/products/components/product-carousel/product-carousel';
 
 @Component({
   selector: 'app-featured-products',
-  imports: [
-    RouterLink,
-    ProductCard,
-    CarouselModule,
-    ButtonModule,
-    ChevronLeft,
-    ChevronRight,
-    ProductCardSkeleton,
-  ],
-  templateUrl: './featured-products.html',
+  imports: [ProductCarousel],
+  template: `
+    <app-product-carousel
+      title="Productos destacados"
+      [products]="featuredProducts()"
+      [loading]="loading()"
+      emptyMessage="No hay productos destacados por ahora."
+      viewAllLink="/products"
+    />
+  `,
 })
 export class FeaturedProducts implements OnInit {
   private productService = inject(ProductService);
