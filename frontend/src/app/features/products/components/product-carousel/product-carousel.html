@@ -1,1 +1,56 @@
-<p>product-carousel works!</p>
+<section class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+  @if (loading()) {
+  <header class="text-center mb-8">
+    <h2 class="text-2xl lg:text-4xl font-bold tracking-tight">{{ title() }}</h2>
+  </header>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <app-product-card-skeleton />
+    <app-product-card-skeleton class="hidden sm:block" />
+    <app-product-card-skeleton class="hidden lg:block" />
+  </div>
+  } @else if (products().length > 0) {
+  <p-carousel [slidesPerPage]="slidesPerPage()" [spacing]="24" [loop]="true">
+    <header class="text-center mb-8">
+      <h2 class="text-2xl lg:text-4xl font-bold tracking-tight">{{ title() }}</h2>
+    </header>
+
+    <p-carousel-content>
+      @for (product of products(); track product.id) {
+      <p-carousel-item class="h-full">
+        <app-product-card [product]="product" />
+      </p-carousel-item>
+      }
+    </p-carousel-content>
+
+    <div class="flex mt-4 gap-4">
+      <p-carousel-indicators></p-carousel-indicators>
+      <div class="flex items-center justify-end gap-2 flex-1">
+        <button pCarouselPrev pButton severity="secondary" iconOnly>
+          <svg data-p-icon="chevron-left"></svg>
+        </button>
+        <button pCarouselNext pButton severity="secondary" iconOnly>
+          <svg data-p-icon="chevron-right"></svg>
+        </button>
+      </div>
+    </div>
+
+    @if (viewAllLink(); as link) {
+    <div class="flex justify-center mt-4">
+      <a pButton class="px-10! py-3!" [routerLink]="link" [queryParams]="viewAllQueryParams()">{{
+        viewAllLabel()
+      }}</a>
+    </div>
+    }
+  </p-carousel>
+  } @else {
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold tracking-tight">{{ title() }}</h2>
+  </div>
+  <div
+    class="text-center py-24 rounded-xl border border-dashed border-surface-300 dark:border-surface-700"
+  >
+    <p class="font-medium">{{ emptyMessage() }}</p>
+  </div>
+  }
+</section>
