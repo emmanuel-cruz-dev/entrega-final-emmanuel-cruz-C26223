@@ -205,9 +205,9 @@
     class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-surface-300 dark:border-surface-600 p-12 text-center"
   >
     <div
-      class="flex size-16 items-center justify-center rounded-full bg-surface-100 dark:bg-surface-800"
+      class="flex size-24 items-center justify-center rounded-full bg-surface-100 dark:bg-surface-800"
     >
-      <svg pIcon="box" class="text-surface-400 size-8"></svg>
+      <svg pIcon="box" class="text-surface-400" size="40"></svg>
     </div>
     <div>
       <p class="font-semibold text-surface-600 dark:text-surface-300">No hay productos aún</p>
@@ -215,7 +215,7 @@
         Comenzá agregando productos al catálogo para ver las estadísticas.
       </p>
     </div>
-    <a pButton routerLink="/dashboard/products/new"> Nuevo producto </a>
+    <a pButton routerLink="/dashboard/products/new" class="px-10!"> Nuevo producto </a>
   </div>
   } @if (loading()) {
   <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
