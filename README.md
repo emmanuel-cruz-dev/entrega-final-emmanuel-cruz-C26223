@@ -170,7 +170,7 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-El servidor iniciará en: **`http://localhost:8080`**
+El servidor iniciará en: **`http://localhost:8080`**  
 Documentación Swagger disponible en: **`http://localhost:8080/swagger-ui/index.html`**
 
 ---
