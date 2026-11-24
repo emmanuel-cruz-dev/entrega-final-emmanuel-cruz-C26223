@@ -86,7 +86,7 @@ public class CategoryController {
             content = @Content(schema = @Schema(implementation = Category.class))),
         @ApiResponse(responseCode = "404", description = "Categoría no encontrada", content = @Content)
     })
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Category> update(
             @Parameter(description = "ID de la categoría a actualizar", required = true, example = "1")
             @PathVariable Long id,
