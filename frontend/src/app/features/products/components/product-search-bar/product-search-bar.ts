@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
@@ -13,10 +13,12 @@ import { PIcon } from '@primeicons/angular/p-icon';
 export class ProductSearchBar {
   private router = inject(Router);
 
-  search = new FormControl('', { nonNullable: true });
+  form = new FormGroup({
+    search: new FormControl('', { nonNullable: true }),
+  });
 
   onSubmit(): void {
-    const term = this.search.value.trim();
+    const term = this.form.controls.search.value.trim();
 
     this.router.navigate(['/products'], {
       queryParams: term ? { search: term } : {},
