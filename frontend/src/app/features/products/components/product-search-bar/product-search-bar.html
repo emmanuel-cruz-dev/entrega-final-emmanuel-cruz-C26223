@@ -1,1 +1,14 @@
-<p>product-search-bar works!</p>
+<form (ngSubmit)="onSubmit()" class="flex gap-2 w-full">
+  <input
+    pInputText
+    type="search"
+    [formControl]="search"
+    placeholder="Buscar productos..."
+    aria-label="Buscar productos"
+    class="flex-1 min-w-0"
+  />
+  <button type="submit" pButton>
+    <svg pIcon="search"></svg>
+    Buscar
+  </button>
+</form>
