@@ -4,16 +4,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { Plus } from '@primeicons/angular/plus';
-import { Pencil } from '@primeicons/angular/pencil';
-import { Trash } from '@primeicons/angular/trash';
+import { PIcon } from '@primeicons/angular/p-icon';
 
 import { Category } from 'src/app/core/models';
 import { CategoryService } from 'src/app/features/categories/services';
 
 @Component({
   selector: 'app-categories-management',
-  imports: [RouterLink, ConfirmDialogModule, TableModule, ButtonModule, Plus, Pencil, Trash],
+  imports: [RouterLink, ConfirmDialogModule, TableModule, ButtonModule, PIcon],
   templateUrl: './categories-management.html',
 })
 export class CategoriesManagement implements OnInit {
