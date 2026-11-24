@@ -114,7 +114,7 @@ public class ProductController {
             content = @Content(schema = @Schema(implementation = Product.class))),
         @ApiResponse(responseCode = "404", description = "Producto no encontrado", content = @Content)
     })
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Product> update(
             @Parameter(description = "ID del producto a actualizar", required = true, example = "1")
             @PathVariable Long id,
