@@ -1,8 +1,8 @@
-<form (ngSubmit)="onSubmit()" class="flex gap-2 w-full">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex gap-2 w-full">
   <input
     pInputText
     type="search"
-    [formControl]="search"
+    formControlName="search"
     placeholder="Buscar productos..."
     aria-label="Buscar productos"
     class="flex-1 min-w-0"
